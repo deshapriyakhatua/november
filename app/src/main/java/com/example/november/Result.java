@@ -50,6 +50,7 @@ public class Result extends AppCompatActivity {
 
     // on back press
 
+
     @Override
     public void onBackPressed() {
         Snackbar.make(constraintLayout,"You have submitted all questions",Snackbar.LENGTH_INDEFINITE)
