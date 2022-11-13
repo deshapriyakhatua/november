@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64058729301",
+    "project_id": "november-a9a10",
+    "storage_bucket": "november-a9a10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64058729301:android:6cd14fe93f7dbf401305dc",
+        "android_client_info": {
+          "package_name": "com.example.november"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64058729301-rtflk9s5plvmfb4o1r6hrdcv5tq6n66q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzl2uPgjrfqLehVsOOjL2H3QhSSPW-OmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64058729301-rtflk9s5plvmfb4o1r6hrdcv5tq6n66q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
