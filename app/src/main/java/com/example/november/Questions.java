@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 public class Questions extends AppCompatActivity {
 
@@ -17,5 +18,12 @@ public class Questions extends AppCompatActivity {
 
         // hiding status bar
         WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
+
+
+    }
+    // disable backPress Button
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(Questions.this,"For previous question press previous Button !",Toast.LENGTH_SHORT).show();
     }
 }
