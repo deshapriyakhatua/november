@@ -41,7 +41,8 @@ public class Questions extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.child("Java").getChildren()){
-
+                    question.setText(dataSnapshot.child("Question").getValue(String.class));
+                    qs1.setText(dataSnapshot.child("option 1").getValue(String.class));
                 }
             }
 
