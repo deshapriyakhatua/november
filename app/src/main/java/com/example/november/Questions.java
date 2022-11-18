@@ -35,7 +35,7 @@ public class Questions extends AppCompatActivity {
         // hiding status bar
         WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
 
-        questionNo = 1;
+        questionNo = 0;
         requestQuestion(questionNo);
 
 
