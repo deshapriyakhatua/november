@@ -11,7 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Home extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +28,28 @@ public class Home extends AppCompatActivity {
         // hiding status bar
         WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
 
+        mAuth = FirebaseAuth.getInstance();
+
         // start another activity
         TextView textView = findViewById(R.id.StartPreparation);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this,Questions.class);
-                startActivity(intent);
+                if(isLoggeddIn()){
+                    Intent intent = new Intent(Home.this,Questions.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(Home.this,Login.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
+    }
+
+    private boolean isLoggeddIn() {
+        return mAuth.getCurrentUser() != null;
     }
 
     // disable backPress Button
