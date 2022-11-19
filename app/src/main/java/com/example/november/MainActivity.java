@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.white));
         }
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
