@@ -38,7 +38,6 @@ public class Questions extends AppCompatActivity {
         questionNo = 0;
         requestQuestion(questionNo);
 
-
     }
     // request for question
     protected void requestQuestion(int questionNo){
