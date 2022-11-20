@@ -143,7 +143,7 @@ public class Login extends AppCompatActivity {
                                                 // start Home Activity
                                                 //Intent intent = new Intent(Login.this,Home.class);
                                                 //startActivity(intent);
-                                                finish();
+                                                //finish();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
