@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(Login.this, "Signed in successfully", Toast.LENGTH_LONG).show();
                                         //startActivity(new Intent(Login.this, Home.class));
-                                        finish();
+                                        //finish();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -133,22 +133,28 @@ public class Login extends AppCompatActivity {
 
                                         // creating user database
                                         String uid = mAuth.getCurrentUser().getUid().toString();
-                                        User user = new User();
+                                        HashMap<String,HashMap<String,String>> user = new HashMap<>();
+                                        user.put("submissions",new HashMap<>());
+                                        user.get("submissions").put("sample","0");
+                                        user.put("user",new HashMap<>());
+                                        user.get("user").put("name","");
+                                        user.get("user").put("pin","");
+                                        user.get("user").put("mobile","");
+                                        user.get("user").put("city","");
+                                        user.get("user").put("github","");
+                                        user.get("user").put("linkedin","");
 
-                                        DatabaseReference database = FirebaseDatabase.getInstance().getReferenceFromUrl("https://november-a9a10-default-rtdb.firebaseio.com/users/");
-                                        database.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+                                        database.child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
+                                            public void onSuccess(Void unused) {
                                                 Toast.makeText(Login.this,"user database Successfully created",Toast.LENGTH_LONG).show();
-                                                // start Home Activity
-                                                //Intent intent = new Intent(Login.this,Home.class);
-                                                //startActivity(intent);
-                                                //finish();
+                                                startActivity(new Intent(Login.this,Home.class));
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(Login.this,"user database creation failed : "+e.getMessage().toString(),Toast.LENGTH_LONG).show();
+                                                Toast.makeText(Login.this,"user database creation failed !",Toast.LENGTH_LONG).show();
                                             }
                                         });
 
@@ -182,17 +188,6 @@ public class Login extends AppCompatActivity {
 
     }
 
-
-    // creating user database object class
-
-    public class User{
-        HashMap<String,Integer> submissions;
-        HashMap<String,String> user;
-        public User(){
-            submissions = new HashMap<>();
-            user = new HashMap<>();
-        }
-    }
 
 }
 
