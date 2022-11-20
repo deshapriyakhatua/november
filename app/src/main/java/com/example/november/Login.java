@@ -13,10 +13,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
 
@@ -63,7 +69,7 @@ public class Login extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(Login.this, "Signed in successfully", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(Login.this, Home.class));
+                                        //startActivity(new Intent(Login.this, Home.class));
                                         finish();
                                     }
                                 })
@@ -125,9 +131,28 @@ public class Login extends AppCompatActivity {
                                                     }
                                                 });
 
-                                        Intent intent = new Intent(Login.this,Home.class);
-                                        startActivity(intent);
-                                        finish();
+                                        // creating user database
+                                        String uid = mAuth.getCurrentUser().getUid().toString();
+                                        User user = new User();
+
+                                        DatabaseReference database = FirebaseDatabase.getInstance().getReferenceFromUrl("https://november-a9a10-default-rtdb.firebaseio.com/users/");
+                                        database.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Toast.makeText(Login.this,"user database Successfully created",Toast.LENGTH_LONG).show();
+                                                // start Home Activity
+                                                //Intent intent = new Intent(Login.this,Home.class);
+                                                //startActivity(intent);
+                                                finish();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(Login.this,"user database creation failed : "+e.getMessage().toString(),Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -156,4 +181,18 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
+
+    // creating user database object class
+
+    public class User{
+        HashMap<String,Integer> submissions;
+        HashMap<String,String> user;
+        public User(){
+            submissions = new HashMap<>();
+            user = new HashMap<>();
+        }
+    }
+
 }
+
