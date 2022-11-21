@@ -15,13 +15,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Home extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    TextView textView;
+    TextView textViewStartPrep;
+    TextView name;
+    TextView email;
     TextView textViewNIC;
     ImageView imageViewNIC;
     TextView textViewTryAgain;
@@ -37,57 +37,31 @@ public class Home extends AppCompatActivity {
         // hiding status bar
         WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
 
-        textView = findViewById(R.id.StartPreparation);
+        textViewStartPrep = findViewById(R.id.StartPreparation);
+        name = findViewById(R.id.textViewName);
+        email = findViewById(R.id.textViewEmail);
         textViewNIC = findViewById(R.id.textViewNIC);
         imageViewNIC = findViewById(R.id.imageViewNIC);
         textViewTryAgain = findViewById(R.id.textViewTryAgain);
 
         // checking internet connection
-        if(isNetworkAvailable()){
-            textView.setVisibility(View.VISIBLE);
-            imageViewNIC.setVisibility(View.GONE);
-            textViewNIC.setVisibility(View.GONE);
-            textViewTryAgain.setVisibility(View.GONE);
-        }else{
-            textView.setVisibility(View.GONE);
-            imageViewNIC.setVisibility(View.VISIBLE);
-            textViewNIC.setVisibility(View.VISIBLE);
-            textViewTryAgain.setVisibility(View.VISIBLE);
-        }
-
+        isNetworkAvailable();
 
         // try again button on click
         textViewTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isNetworkAvailable()){
-                    textView.setVisibility(View.VISIBLE);
-                    imageViewNIC.setVisibility(View.GONE);
-                    textViewNIC.setVisibility(View.GONE);
-                    textViewTryAgain.setVisibility(View.GONE);
-                }else{
-                    textView.setVisibility(View.GONE);
-                    imageViewNIC.setVisibility(View.VISIBLE);
-                    textViewNIC.setVisibility(View.VISIBLE);
-                    textViewTryAgain.setVisibility(View.VISIBLE);
-                }
+                isNetworkAvailable();
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
 
-        // checking if logged in
-        textView.setOnClickListener(new View.OnClickListener() {
+        // start preparation
+        textViewStartPrep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isLoggeddIn()){
-                    Intent intent = new Intent(Home.this,Questions.class);
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(Home.this,Login.class);
-                    startActivity(intent);
-                }
-
+                Intent intent = new Intent(Home.this,Questions.class);
+                startActivity(intent);
             }
         });
 
@@ -105,9 +79,33 @@ public class Home extends AppCompatActivity {
     }
 
     // checking internet connection
-    private boolean isNetworkAvailable() {
+    private void isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        boolean bool = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if(bool){
+            //name.setVisibility(View.VISIBLE);
+            email.setVisibility(View.VISIBLE);
+            imageViewNIC.setVisibility(View.GONE);
+            textViewNIC.setVisibility(View.GONE);
+            textViewTryAgain.setVisibility(View.GONE);
+
+            mAuth = FirebaseAuth.getInstance();
+
+            if(isLoggeddIn()){
+                textViewStartPrep.setVisibility(View.VISIBLE);
+                email.setText("Name : "+mAuth.getCurrentUser().getEmail());
+            }
+            else{
+                startActivity(new Intent(Home.this,Login.class));
+            }
+        }else{
+            name.setVisibility(View.GONE);
+            email.setVisibility(View.GONE);
+            textViewStartPrep.setVisibility(View.GONE);
+            imageViewNIC.setVisibility(View.VISIBLE);
+            textViewNIC.setVisibility(View.VISIBLE);
+            textViewTryAgain.setVisibility(View.VISIBLE);
+        }
     }
 }
