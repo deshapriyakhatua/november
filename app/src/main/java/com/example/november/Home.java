@@ -2,7 +2,6 @@ package com.example.november;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +24,7 @@ public class Home extends AppCompatActivity {
     TextView textView;
     TextView textViewNIC;
     ImageView imageViewNIC;
+    TextView textViewTryAgain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +40,22 @@ public class Home extends AppCompatActivity {
         textView = findViewById(R.id.StartPreparation);
         textViewNIC = findViewById(R.id.textViewNIC);
         imageViewNIC = findViewById(R.id.imageViewNIC);
+        textViewTryAgain = findViewById(R.id.textViewTryAgain);
 
         // checking internet connection
         isNetworkAvailable();
 
+        // try again button on click
+        textViewTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isNetworkAvailable();
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
 
-        // start another activity
+        // checking if logged in
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,17 +92,12 @@ public class Home extends AppCompatActivity {
             textView.setVisibility(View.VISIBLE);
             imageViewNIC.setVisibility(View.GONE);
             textViewNIC.setVisibility(View.GONE);
+            textViewTryAgain.setVisibility(View.GONE);
         }else{
             textView.setVisibility(View.GONE);
             imageViewNIC.setVisibility(View.VISIBLE);
             textViewNIC.setVisibility(View.VISIBLE);
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    isNetworkAvailable();
-                }
-            }, 2000);
+            textViewTryAgain.setVisibility(View.VISIBLE);
         }
 
     }
