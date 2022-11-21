@@ -43,13 +43,34 @@ public class Home extends AppCompatActivity {
         textViewTryAgain = findViewById(R.id.textViewTryAgain);
 
         // checking internet connection
-        isNetworkAvailable();
+        if(isNetworkAvailable()){
+            textView.setVisibility(View.VISIBLE);
+            imageViewNIC.setVisibility(View.GONE);
+            textViewNIC.setVisibility(View.GONE);
+            textViewTryAgain.setVisibility(View.GONE);
+        }else{
+            textView.setVisibility(View.GONE);
+            imageViewNIC.setVisibility(View.VISIBLE);
+            textViewNIC.setVisibility(View.VISIBLE);
+            textViewTryAgain.setVisibility(View.VISIBLE);
+        }
+
 
         // try again button on click
         textViewTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isNetworkAvailable();
+                if(isNetworkAvailable()){
+                    textView.setVisibility(View.VISIBLE);
+                    imageViewNIC.setVisibility(View.GONE);
+                    textViewNIC.setVisibility(View.GONE);
+                    textViewTryAgain.setVisibility(View.GONE);
+                }else{
+                    textView.setVisibility(View.GONE);
+                    imageViewNIC.setVisibility(View.VISIBLE);
+                    textViewNIC.setVisibility(View.VISIBLE);
+                    textViewTryAgain.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -84,21 +105,9 @@ public class Home extends AppCompatActivity {
     }
 
     // checking internet connection
-    private void isNetworkAvailable() {
+    private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-        boolean bool = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        if(bool){
-            textView.setVisibility(View.VISIBLE);
-            imageViewNIC.setVisibility(View.GONE);
-            textViewNIC.setVisibility(View.GONE);
-            textViewTryAgain.setVisibility(View.GONE);
-        }else{
-            textView.setVisibility(View.GONE);
-            imageViewNIC.setVisibility(View.VISIBLE);
-            textViewNIC.setVisibility(View.VISIBLE);
-            textViewTryAgain.setVisibility(View.VISIBLE);
-        }
-
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
