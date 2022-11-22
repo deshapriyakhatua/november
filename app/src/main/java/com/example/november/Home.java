@@ -84,7 +84,7 @@ public class Home extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         boolean bool = activeNetworkInfo != null && activeNetworkInfo.isConnected();
         if(bool){
-            //name.setVisibility(View.VISIBLE);
+            name.setVisibility(View.GONE);
             email.setVisibility(View.VISIBLE);
             imageViewNIC.setVisibility(View.GONE);
             textViewNIC.setVisibility(View.GONE);
@@ -94,7 +94,7 @@ public class Home extends AppCompatActivity {
 
             if(isLoggeddIn()){
                 textViewStartPrep.setVisibility(View.VISIBLE);
-                email.setText("Name : "+mAuth.getCurrentUser().getEmail());
+                email.setText("Email : "+mAuth.getCurrentUser().getEmail());
             }
             else{
                 startActivity(new Intent(Home.this,Login.class));

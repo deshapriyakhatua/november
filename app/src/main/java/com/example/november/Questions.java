@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class Questions extends AppCompatActivity {
 
         TextView question = findViewById(R.id.textView);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
 
         Button previous = findViewById(R.id.buttonPrevious);
         Button next = findViewById(R.id.buttonNext);
@@ -59,6 +61,7 @@ public class Questions extends AppCompatActivity {
 
                 DataSnapshot dataSnapshot = snapshot.child("Java").child(questionNo+"");
 
+                progressBar.setVisibility(View.GONE);
                 question.setText(dataSnapshot.child("Question").getValue(String.class));
                 String answer = dataSnapshot.child("Answer").getValue(String.class);
 
