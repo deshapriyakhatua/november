@@ -17,6 +17,13 @@
         android:theme="@style/Theme.November"
         tools:targetApi="29">
         <activity
+            android:name=".Result"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Login"
             android:exported="false">
             <meta-data

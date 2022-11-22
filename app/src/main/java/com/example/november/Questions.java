@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,9 @@ public class Questions extends AppCompatActivity {
 
     int questionNo;
     DatabaseReference databaseReference;
+    FirebaseAuth mAuth;
+    int solved = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,9 @@ public class Questions extends AppCompatActivity {
 
         // hiding status bar
         WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
+
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://november-a9a10-default-rtdb.firebaseio.com/");
+        mAuth = FirebaseAuth.getInstance();
 
         questionNo = 0;
         requestQuestion(questionNo);
@@ -53,7 +60,6 @@ public class Questions extends AppCompatActivity {
         Button submit = findViewById(R.id.buttonSubmit);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://november-a9a10-default-rtdb.firebaseio.com/");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,19 +105,28 @@ public class Questions extends AppCompatActivity {
 
     // submit button
     protected void onSubmitButton(String pressedAns, String answer){
+
+
+        questionNo++;
+
+        String userUID = mAuth.getCurrentUser().getUid().toString();
+
         if(pressedAns.equals(answer)){
-            questionNo++;
-            if(questionNo>4){
-                Intent intent = new Intent(Questions.this,Home.class);
-                startActivity(intent);
-            }
-            else{
-                requestQuestion(questionNo);
-            }
+            solved++;
+            databaseReference.child("users").child(userUID).child("submissions").child(questionNo-1+"").setValue(1);
         }
         else{
-            Toast.makeText(Questions.this,"Wrong answer",Toast.LENGTH_SHORT).show();
+            databaseReference.child("users").child(userUID).child("submissions").child(questionNo-1+"").setValue(0);
         }
+        if(questionNo>4){
+            Intent intent = new Intent(Questions.this,Result.class);
+            intent.putExtra("total",5);
+            intent.putExtra("solved",solved);
+            startActivity(intent);
+        } else {
+            requestQuestion(questionNo);
+        }
+
     }
 
     // disable backPress Button
