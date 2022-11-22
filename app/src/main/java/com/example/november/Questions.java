@@ -68,7 +68,7 @@ public class Questions extends AppCompatActivity {
                 DataSnapshot dataSnapshot = snapshot.child("Java").child(questionNo+"");
 
                 progressBar.setVisibility(View.GONE);
-                question.setText(dataSnapshot.child("Question").getValue(String.class));
+                question.setText(dataSnapshot.child("Question").getValue().toString().replace("\\n", "\n"));
                 String answer = dataSnapshot.child("Answer").getValue(String.class);
 
                 radioGroup.removeAllViews();

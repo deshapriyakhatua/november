@@ -13,7 +13,7 @@
         android:layout_marginTop="100dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
