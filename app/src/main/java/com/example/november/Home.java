@@ -78,6 +78,7 @@ public class Home extends AppCompatActivity {
         Toast.makeText(Home.this,"Already in Home Screen",Toast.LENGTH_SHORT).show();
     }
 
+
     // checking internet connection
     private void isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
